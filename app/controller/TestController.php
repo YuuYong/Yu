@@ -8,8 +8,19 @@
 
 namespace App\controller;
 
+use sdk\libs\MysqlHelper;
+use Katzgrau\KLogger\Logger;
 
 class TestController
 {
+    public function test(){
 
+
+
+        $mysql = MysqlHelper::getInstance();
+        $re = $mysql->getOne('select * from test.order_2');
+        $run_time = run_time();
+        var_dump($re);
+
+    }
 }

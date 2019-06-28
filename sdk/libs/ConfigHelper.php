@@ -23,9 +23,9 @@ class ConfigHelper
         //读取自定义配置
         $env_file = PJ_PATH . '.env';
         if (file_exists($env_file)) {
-            $env_data = parse_ini_file(PJ_PATH.'.env',true);
+            $env_data = parse_ini_file(PJ_PATH . '.env', true);
             $config = isset($env_data[$config_name]) ? $env_data[$config_name] : null;
-            if($config){
+            if ($config) {
                 return $config;
             }
         }

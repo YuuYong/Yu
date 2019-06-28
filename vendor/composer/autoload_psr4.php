@@ -7,5 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'bootstrap\\' => array($baseDir . '/bootstrap'),
+    'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
+    'Katzgrau\\KLogger\\' => array($vendorDir . '/katzgrau/klogger/src'),
     'App\\' => array($baseDir . '/app'),
 );

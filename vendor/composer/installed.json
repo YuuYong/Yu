@@ -1,1 +1,103 @@
-[]
+[
+    {
+        "name": "katzgrau/klogger",
+        "version": "1.2.1",
+        "version_normalized": "1.2.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/katzgrau/KLogger.git",
+            "reference": "a4ed373fa8a214aa4ae7aa4f221fe2c6ce862ef1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github-api-proxy.cnpkg.org/repos/katzgrau/KLogger/zipball/a4ed373fa8a214aa4ae7aa4f221fe2c6ce862ef1",
+            "reference": "a4ed373fa8a214aa4ae7aa4f221fe2c6ce862ef1",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3",
+            "psr/log": "^1.0.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "4.0.*"
+        },
+        "time": "2016-11-07T19:29:14+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Katzgrau\\KLogger\\": "src/"
+            },
+            "classmap": [
+                "src/"
+            ]
+        },
+        "notification-url": "https://repo.packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Kenny Katzgrau",
+                "email": "katzgrau@gmail.com"
+            },
+            {
+                "name": "Dan Horrigan",
+                "email": "dan@dhorrigan.com"
+            }
+        ],
+        "description": "A Simple Logging Class",
+        "keywords": [
+            "logging"
+        ]
+    },
+    {
+        "name": "psr/log",
+        "version": "1.1.0",
+        "version_normalized": "1.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/php-fig/log.git",
+            "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github-api-proxy.cnpkg.org/repos/php-fig/log/zipball/6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
+            "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2018-11-20T15:27:04+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Psr\\Log\\": "Psr/Log/"
+            }
+        },
+        "notification-url": "https://repo.packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "PHP-FIG",
+                "homepage": "http://www.php-fig.org/"
+            }
+        ],
+        "description": "Common interface for logging libraries",
+        "homepage": "https://github.com/php-fig/log",
+        "keywords": [
+            "log",
+            "psr",
+            "psr-3"
+        ]
+    }
+]

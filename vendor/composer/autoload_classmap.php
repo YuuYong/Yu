@@ -6,9 +6,8 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Autoloader' => $baseDir . '/sdk/autoload.php',
+    'Katzgrau\\KLogger\\Logger' => $vendorDir . '/katzgrau/klogger/src/Logger.php',
     'sdk\\libs\\ConfigHelper' => $baseDir . '/sdk/libs/ConfigHelper.php',
     'sdk\\libs\\HttpHelper' => $baseDir . '/sdk/libs/HttpHelper.php',
-    'sdk\\libs\\Mysql' => $baseDir . '/sdk/libs/Mysql.php',
     'sdk\\libs\\MysqlHelper' => $baseDir . '/sdk/libs/MysqlHelper.php',
 );

@@ -1,10 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: YuYong
- * Date: 2019/6/13
- * Time: 15:12
- */
+header("X-Powered-By: Yu-Framework");
+
+define('APP_RUN_START_TIME',microtime(true));
 
 require __DIR__.'/../vendor/autoload.php';
 
+bootstrap\App::run();

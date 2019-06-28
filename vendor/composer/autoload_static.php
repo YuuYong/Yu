@@ -11,6 +11,14 @@ class ComposerStaticInit0aab77ca8a895b1d9197a1080310d5a0
         array (
             'bootstrap\\' => 10,
         ),
+        'P' => 
+        array (
+            'Psr\\Log\\' => 8,
+        ),
+        'K' => 
+        array (
+            'Katzgrau\\KLogger\\' => 17,
+        ),
         'A' => 
         array (
             'App\\' => 4,
@@ -22,6 +30,14 @@ class ComposerStaticInit0aab77ca8a895b1d9197a1080310d5a0
         array (
             0 => __DIR__ . '/../..' . '/bootstrap',
         ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
+        'Katzgrau\\KLogger\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/katzgrau/klogger/src',
+        ),
         'App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
@@ -29,10 +45,9 @@ class ComposerStaticInit0aab77ca8a895b1d9197a1080310d5a0
     );
 
     public static $classMap = array (
-        'Autoloader' => __DIR__ . '/../..' . '/sdk/autoload.php',
+        'Katzgrau\\KLogger\\Logger' => __DIR__ . '/..' . '/katzgrau/klogger/src/Logger.php',
         'sdk\\libs\\ConfigHelper' => __DIR__ . '/../..' . '/sdk/libs/ConfigHelper.php',
         'sdk\\libs\\HttpHelper' => __DIR__ . '/../..' . '/sdk/libs/HttpHelper.php',
-        'sdk\\libs\\Mysql' => __DIR__ . '/../..' . '/sdk/libs/Mysql.php',
         'sdk\\libs\\MysqlHelper' => __DIR__ . '/../..' . '/sdk/libs/MysqlHelper.php',
     );
 

@@ -4,53 +4,104 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3d351ba98029a7d52b325cdf3864d49a",
+    "content-hash": "e84823181b68c66c7fd7d18532c85190",
     "packages": [
         {
-            "name": "nikic/fast-route",
-            "version": "v1.3.0",
+            "name": "katzgrau/klogger",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/nikic/FastRoute.git",
-                "reference": "181d480e08d9476e61381e04a71b34dc0432e812"
+                "url": "https://github.com/katzgrau/KLogger.git",
+                "reference": "a4ed373fa8a214aa4ae7aa4f221fe2c6ce862ef1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github-api-proxy.cnpkg.org/repos/nikic/FastRoute/zipball/181d480e08d9476e61381e04a71b34dc0432e812",
-                "reference": "181d480e08d9476e61381e04a71b34dc0432e812",
+                "url": "https://github-api-proxy.cnpkg.org/repos/katzgrau/KLogger/zipball/a4ed373fa8a214aa4ae7aa4f221fe2c6ce862ef1",
+                "reference": "a4ed373fa8a214aa4ae7aa4f221fe2c6ce862ef1",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0"
+                "php": ">=5.3",
+                "psr/log": "^1.0.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8.35|~5.7"
+                "phpunit/phpunit": "4.0.*"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "FastRoute\\": "src/"
+                    "Katzgrau\\KLogger\\": "src/"
                 },
-                "files": [
-                    "src/functions.php"
+                "classmap": [
+                    "src/"
                 ]
             },
             "notification-url": "https://repo.packagist.org/downloads/",
             "license": [
-                "BSD-3-Clause"
+                "MIT"
             ],
             "authors": [
                 {
-                    "name": "Nikita Popov",
-                    "email": "nikic@php.net"
+                    "name": "Kenny Katzgrau",
+                    "email": "katzgrau@gmail.com"
+                },
+                {
+                    "name": "Dan Horrigan",
+                    "email": "dan@dhorrigan.com"
                 }
             ],
-            "description": "Fast request router for PHP",
+            "description": "A Simple Logging Class",
             "keywords": [
-                "router",
-                "routing"
+                "logging"
             ],
-            "time": "2018-02-13T20:26:39+00:00"
+            "time": "2016-11-07T19:29:14+00:00"
+        },
+        {
+            "name": "psr/log",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/log.git",
+                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github-api-proxy.cnpkg.org/repos/php-fig/log/zipball/6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
+                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Log\\": "Psr/Log/"
+                }
+            },
+            "notification-url": "https://repo.packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for logging libraries",
+            "homepage": "https://github.com/php-fig/log",
+            "keywords": [
+                "log",
+                "psr",
+                "psr-3"
+            ],
+            "time": "2018-11-20T15:27:04+00:00"
         }
     ],
     "packages-dev": [],
@@ -59,6 +110,8 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": ">=7.0.0"
+    },
     "platform-dev": []
 }
