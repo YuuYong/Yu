@@ -66,6 +66,37 @@ function get_exception(\Exception $e, $type = '',$params = []){
 
 
 /**
+ * 获取全部路由
+ * @param $key
+ * @param $route
+ * @return array
+ */
+function get_all_route($key, $route){
+    static $route_list = [];
+    if(is_array($route)){
+        foreach($route as $v=>$k){
+            $temp_route = trim($key,'/').'/'.trim($v,'/');
+            $temp_route = trim($temp_route,'/');
+            get_all_route($temp_route,$k);
+        }
+    }else{
+        $route_list[$key] = $route;
+    }
+    return $route_list;
+}
+
+
+/**
+ * @param $dir
+ * @return bool
+ */
+function create_folders($dir)
+{
+    return is_dir($dir) or (create_folders(dirname($dir)) and mkdir($dir, 0777));
+}
+
+
+/**
  * @param $url
  * @param array $data
  * @return mixed

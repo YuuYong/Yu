@@ -1,5 +1,5 @@
 <?php
-header("X-Powered-By: Yu-Framework");
+session_start();
 
 define('APP_RUN_START_TIME',microtime(true));
 

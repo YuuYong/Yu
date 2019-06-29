@@ -1,12 +1,13 @@
 <?php
 
+// 路由示例
 return [
-    '' => 'TestController@test',
+    '' => 'TestController@test', // example.com
     'api' => [
         'user' => [
-            'info' => 'TestController@test'
+            'info' => 'TestController@test' // example.com/api/user/info
         ],
-        'admin' => 'AdminController@test'
+        'admin' => 'AdminController@test' // example.com/api/admin
     ],
-    'abc/ac' => 'TestController@test',
+    'data/foo' => 'TestController@test', // example.com/data/foo
 ];
