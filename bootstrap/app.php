@@ -8,16 +8,19 @@ class App
 {
     public static function run(){
 
-        //1.首先定义目录常量
+        //首先定义目录常量
         self::defDir();
 
-        //2.其次定义公共函数
+        //其次定义公共函数
         self::defFunc();
 
-        //3.Header设置
-        self::setHeader();
+        //Header设置
+        //self::setHeader();
 
-        //4.路由解析
+        //开启Session
+        self::startSession();
+
+        //路由解析
         self::getRouter();
     }
 
@@ -33,6 +36,8 @@ class App
         define('PJ_PATH',dirname(__DIR__).DIRECTORY_SEPARATOR);//项目根目录
 
         define('APP_PATH',PJ_PATH.'app'.DIRECTORY_SEPARATOR);//项目主目录
+
+        define('PUBLIC_PATH',PJ_PATH.'public'.DIRECTORY_SEPARATOR);//公共目录
 
         define('CONFIG_PATH',PJ_PATH.'config'.DIRECTORY_SEPARATOR);//项目配置文件目录
 
@@ -65,15 +70,28 @@ class App
 
     /**
      * Header设置
+     * @param string $type
      */
-    private static function setHeader(){
+    private static function setHeader($type = ''){
 
         //X-Powered-By
         header("X-Powered-By: Yu-Framework");
 
         //响应格式
-        header('Content-Type: application/json;charset=utf-8');
+        if($type == 'json'){
+            header('Content-Type: text/html;charset=utf-8');
+        }else{
+            header('Content-Type: application/json;charset=utf-8');
+        }
 
+    }
+
+
+    /**
+     * 开启会话
+     */
+    private static function startSession(){
+        session_start();
     }
 
 
@@ -154,8 +172,10 @@ class App
         }
         if(!is_null($response)){
             if(is_array($response)){
+                self::setHeader('json');
                 echo json_encode($response,256);
             }elseif(is_string($response)){
+                self::setHeader('html');
                 echo $response;
             }elseif(is_object($response)){
                 echo $response;

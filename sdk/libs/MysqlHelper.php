@@ -375,6 +375,7 @@ class MysqlHelper
 
 
     /**
+     * 以数组形式修改数据
      * @param string $table
      * @param array $data
      * @param string $where

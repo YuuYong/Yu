@@ -1,54 +1,55 @@
 <?php
+
 namespace sdk\libs;
-/**
- * curl
- * @package common
- */
+
+use Katzgrau\KLogger\Logger;
 
 /**
- * 用curl拿http请求类
- * @author chenwei
- * @package common_lib
+ * Class HttpHelper
+ * @package sdk\libs
  */
-class HttpHelper {
-	/**
-	 * [__construct description]
-	 */
-	private function __construct() {
-		return;
-	}
+class HttpHelper
+{
+
+    private function __construct()
+    {
+
+    }
 
 
-	public static function post($url, $postdata, $header=array(), $timeout=5, $cert = array()) {
-        $enable_proxy = false;
-	    if($enable_proxy){
-	        $is_proxy = 0;
-	    } else {
-	        $is_proxy = 1;
-	    }
+    /**
+     * @param $url
+     * @param $postdata
+     * @param array $header
+     * @param int $timeout
+     * @param array $cert
+     * @return mixed
+     */
+    public static function post($url, $postdata, $header = array(), $timeout = 5, $cert = array())
+    {
+        if (!function_exists('curl_init')) {
+            $logger = new Logger(LOG_PATH . "http");
+            $logger->critical("server not install curl\n");
+        }
+        $header[] = 'Expect:';
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
 
-		if (!function_exists('curl_init')) {
-			throw new \Exception('server not install curl');
-		}
-		$header[] = 'Expect:';
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_HEADER, true);
-		curl_setopt($ch, CURLOPT_POST, true);
-		curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
-        curl_setopt ( $ch, CURLOPT_POSTFIELDS, $postdata );
-        curl_setopt ( $ch, CURLOPT_TIMEOUT, $timeout );
-        
-        $url_array = parse_url ( $url );
+        $url_array = parse_url($url);
         if ($url_array ['scheme'] == 'https') {
-            curl_setopt ( $ch, CURLOPT_SSL_VERIFYPEER, 0 ); // 对认证证书来源的检查
-            curl_setopt ( $ch, CURLOPT_SSL_VERIFYHOST, 2 ); // 从证书中检查SSL加密算法是否存在
-			if(isset($cert['cert'])){
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); // 对认证证书来源的检查
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2); // 从证书中检查SSL加密算法是否存在
+            if (isset($cert['cert'])) {
                 curl_setopt($ch, CURLOPT_SSLCERTTYPE, 'PEM');
                 curl_setopt($ch, CURLOPT_SSLCERT, $cert['cert']);
             }
-            if(isset($cert['key'])){
+            if (isset($cert['key'])) {
                 curl_setopt($ch, CURLOPT_SSLKEYTYPE, 'PEM');
                 curl_setopt($ch, CURLOPT_SSLKEY, $cert['key']);
             }
@@ -57,164 +58,147 @@ class HttpHelper {
             }
         }
 
-                
-		if (!empty($header)) {
-			curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-		}
-		$data = curl_exec($ch);
+        if (!empty($header)) {
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        }
+        $data = curl_exec($ch);
 
-		$arrtemp = explode("\r\n\r\n", $data);
-		if(count($arrtemp) <2 ){
-			curl_close($ch);
-		    return '';
-		}
+        $arrtemp = explode("\r\n\r\n", $data);
+        if (count($arrtemp) < 2) {
+            curl_close($ch);
+            return '';
+        }
 
+        list($header, $data) = explode("\r\n\r\n", $data);
 
-		if(1  || empty($is_proxy )){
-		    list($header, $data) = explode("\r\n\r\n", $data);
-		} else {
-		    if($url_array['scheme']=='https'){
-		        $header = $arrtemp[1];
-		        $data = $arrtemp[2];
-		    } else {
-		        list($header, $data) = explode("\r\n\r\n", $data);
-		    }
-		}
-		
-		
-		$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-		if ($http_code == 301 || $http_code == 302) { 
-            $url = self::getLocationUrl($header, $url_array, $requrl);
-            
-		    curl_setopt($ch, CURLOPT_URL, $url);
-		    curl_setopt($ch, CURLOPT_HEADER, false);
-		    
-		    $data = curl_exec($ch);
-		}
+        if ($http_code == 301 || $http_code == 302) {
+            $url = self::getLocationUrl($header, $url_array, $url);
 
-		if($http_code>=400){
-		    $log_path = SDK_PATH . "/../log/httplog/" . PJNAME . '/';
-		    $logger = new \Katzgrau\KLogger\Logger($log_path, \Psr\Log\LogLevel::DEBUG);
-		    $logger->critical("{$requrl},".json_encode($postdata).",http_code:{$http_code}");
-		}
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_HEADER, false);
 
-		if ($data == false) {
-			$m_error = curl_error($ch);
-			curl_close($ch);
-			$log_path = SDK_PATH . "/../log/httperrorpostlog/" . PJNAME . '/';
-			$logger = new \Katzgrau\KLogger\Logger($log_path, \Psr\Log\LogLevel::DEBUG);
-			$logger->critical("url:{$requrl},data:".json_encode($postdata)."\nerror_msg:{$m_error}\n");
-		}
-		@curl_close($ch);
-		return $data;
-	}
-        
-        
+            $data = curl_exec($ch);
+        }
+
+        if ($http_code >= 400) {
+            $log_path = LOG_PATH . "http";
+            $logger = new Logger($log_path);
+            $logger->critical("{$url}," . json_encode($postdata) . ",http_code:{$http_code}");
+        }
+
+        if ($data == false) {
+            $m_error = curl_error($ch);
+            curl_close($ch);
+            $log_path = LOG_PATH . "http";
+            $logger = new Logger($log_path);
+            $logger->critical("url:{$url},data:" . json_encode($postdata) . "\nerror_msg:{$m_error}\n");
+        }
+        @curl_close($ch);
+        return $data;
+    }
 
 
-	/**
-	 * 发送get请求
-	 * @param string $req
-	 * @param array $header
-	 * @param int $timeout
-	 * @throws Exception
-	 */
-	public static function get($req, $header=array(), $timeout=5) {
-	    $proxy_config = \sdk\config\Config::httpProxy();
-	    if(empty($proxy_config["enable"])){
-	        $is_proxy = 0;
-	    } else {
-	        $is_proxy = 1;
-	    }
-	    
-	    
-		$url = self::makeUri($req);
-		if (!function_exists('curl_init')) {
-			throw new \Exception('server not install curl');
-		}
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HEADER, true);
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
-		curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
-		
-        $url_array = parse_url ( $url );
+    /**
+     * 发送get请求
+     * @param $url
+     * @param array $header
+     * @param int $timeout
+     * @return mixed
+     */
+    public static function get($url, $header = array(), $timeout = 5)
+    {
+        if (!function_exists('curl_init')) {
+            $logger = new Logger(LOG_PATH . "http");
+            $logger->critical("server not install curl\n");
+        }
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+
+        $url_array = parse_url($url);
         if ($url_array ['scheme'] == 'https') {
-            curl_setopt ( $ch, CURLOPT_SSL_VERIFYPEER, 0 ); // 对认证证书来源的检查
-            curl_setopt ( $ch, CURLOPT_SSL_VERIFYHOST, 2 ); // 从证书中检查SSL加密算法是否存在
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); // 对认证证书来源的检查
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2); // 从证书中检查SSL加密算法是否存在
         }
-        
-        //根据host判断是否代理
-        if(!empty($proxy_config["no_proxy_hosts"]) && in_array($url_array["host"], $proxy_config["no_proxy_hosts"])){
-            $is_proxy = 0;
+
+        if (!empty($header)) {
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         }
-        
-        
-        if($is_proxy == 1){
-            curl_setopt($ch, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5); //代理服务器地址	
-            curl_setopt($ch, CURLOPT_PROXY, $proxy_config["ip"]); //代理服务器地址
-            curl_setopt($ch, CURLOPT_PROXYPORT, $proxy_config["port"]); //代理服务器端口
+        $data = curl_exec($ch);
+        if ($data == false) {
+            $m_error = curl_error($ch);
+            $logger = new Logger(LOG_PATH . "http");
+            $logger->critical("{$url},error_msg:{$m_error}\n");
         }
-                
-                
-		if (!empty($header)) {
-			curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-		}
-		$data = curl_exec($ch);
-		if ($data == false) {
-			$m_error = curl_error($ch);
-			$log_path = SDK_PATH . "/../log/httperrorblog/" . PJNAME . '/';
-			$logger = new \Katzgrau\KLogger\Logger($log_path, \Psr\Log\LogLevel::DEBUG);
-			$logger->critical("{$req},error_msg:{$m_error}\n");
-		}
-		$arrtemp = explode("\r\n\r\n", $data);
-		if(count($arrtemp) <2 ){
-			curl_close($ch);
-		    return '';
-		}
-		
-		
-		if(1  || empty($is_proxy )){
-		    list($header, $data) = explode("\r\n\r\n", $data);
-		} else {
-		    if($url_array['scheme']=='https'){
-		        $header = $arrtemp[1];
-		        $data = $arrtemp[2];
-		    } else {
-		        list($header, $data) = explode("\r\n\r\n", $data);
-		    }
-		}
-		
-		
-		$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $arrtemp = explode("\r\n\r\n", $data);
+        if (count($arrtemp) < 2) {
+            curl_close($ch);
+            return '';
+        }
+
+        list($header, $data) = explode("\r\n\r\n", $data);
+
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        if ($http_code == 301 || $http_code == 302) {
+            $url = self::getLocationUrl($header, $url_array, $url);
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_HEADER, false);
+            $data = curl_exec($ch);
+        }
+
+        if ($http_code >= 400) {
+            $logger = new Logger(LOG_PATH . "http");
+            $logger->critical("{$url}," . ",http_code:{$http_code}");
+        }
+
+        if ($data == false) {
+            $m_error = curl_error($ch);
+            curl_close($ch);
+            $logger = new Logger(LOG_PATH . 'http');
+            $logger->critical("{$url},error_msg:{$m_error}\n");
+        }
+        @curl_close($ch);
+        return $data;
+    }
 
 
-		
-		if ($http_code == 301 || $http_code == 302) {
-		    $url = self::getLocationUrl($header, $url_array, $req);
-		    curl_setopt($ch, CURLOPT_URL, $url);
-		    curl_setopt($ch, CURLOPT_HEADER, false);
-		    $data = curl_exec($ch);
-		}
+    /**
+     * @param $header
+     * @param $url_array
+     * @param $req_url
+     * @return mixed|string
+     */
+    public static function getLocationUrl($header, $url_array, $req_url)
+    {
+        $header_lines = explode("\r\n", $header);
+        $header_kv = array();
+        foreach ($header_lines as $line) {
+            $tmp = explode(": ", $line);
+            if (count($tmp) == 2) {
+                $header_kv[strtolower($tmp[0])] = $tmp[1];
+            }
+        }
 
-		if($http_code>=400){
-		    $log_path = SDK_PATH . "/../log/httplog/" . PJNAME . '/';
-		    $logger = new \Katzgrau\KLogger\Logger($log_path, \Psr\Log\LogLevel::DEBUG);
-		    $logger->critical("{$req},".",http_code:{$http_code}");
-		}
+        $url = isset($header_kv["location"]) ? $header_kv["location"] : "";
+        if (!preg_match("/{$url_array["host"]}/", $url)) {
+            if (substr($url, 0, 1) == "/") {
+                $url = "{$url_array['scheme']}://{$url_array["host"]}{$url}";
+            } else {
+                $tmp_arr = explode("/", $req_url);
+                $tmp_arr[count($tmp_arr) - 1] = $url;
+                $url = implode("/", $tmp_arr);
+            }
+        }
 
-		if ($data == false) {
-			$m_error = curl_error($ch);
-			curl_close($ch);
-			$log_path = SDK_PATH . "/../log/httperrorlog/" . PJNAME . '/';
-			$logger = new \Katzgrau\KLogger\Logger($log_path, \Psr\Log\LogLevel::DEBUG);
-			$logger->critical("{$req},error_msg:{$m_error}\n");
-		}
-		@curl_close($ch);
-		return $data;
-	}
+        return $url;
+    }
 
 }
+
 ?>

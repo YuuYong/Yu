@@ -42,4 +42,24 @@ trait ResponseTrait
             'data' => $data
         ];
     }
+
+    /**
+     * 文件流输出
+     * @param $filePath
+     * @param $title
+     */
+    public function file($filePath, $title)
+    {
+        $file = fopen($filePath, "rb");
+        Header("Content-type: application/octet-stream");
+        Header("Accept-Ranges: bytes");
+        Header("Content-Disposition: attachment; filename= $title");
+        while (!feof($file)) {
+            echo fread($file, 8192);
+            ob_flush();
+            flush();
+        }
+        fclose($file);
+    }
+
 }
