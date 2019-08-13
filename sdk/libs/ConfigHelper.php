@@ -12,7 +12,14 @@ class ConfigHelper
         return self::getConfig(__FUNCTION__);
     }
 
+
     public static function mysql_slave()
+    {
+        return self::getConfig(__FUNCTION__);
+    }
+
+
+    public static function redis()
     {
         return self::getConfig(__FUNCTION__);
     }

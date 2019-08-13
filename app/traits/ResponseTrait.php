@@ -2,12 +2,12 @@
 
 namespace App\traits;
 
-use Twig\Error\Error;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use \Twig\Loader\FilesystemLoader as TwigLoad;
 use \Twig\Environment as TwigConfig;
+
 /**
  * 模块化复用
  *

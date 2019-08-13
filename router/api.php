@@ -2,7 +2,10 @@
 
 // 路由示例
 return [
-    '' => 'TestController@test', // example.com
+    '' => 'TestController@html', // example.com
+    'redis' => 'TestController@redis', // example.com
+    'mysql' => 'TestController@mysql', // example.com
+    'http' => 'TestController@http', // example.com
     'api' => [
         'user' => [
             'info' => 'TestController@test' // example.com/api/user/info

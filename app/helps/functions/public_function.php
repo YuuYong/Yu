@@ -47,7 +47,7 @@ function run_time(){
  * @param array $params
  * @return string
  */
-function get_exception(\Exception $e, $type = '',$params = []){
+function get_exception($e, $type = '',$params = []){
     switch($type){
         case 'mysql':
             return $e->getMessage();
@@ -93,26 +93,4 @@ function get_all_route($key, $route){
 function create_folders($dir)
 {
     return is_dir($dir) or (create_folders(dirname($dir)) and mkdir($dir, 0777));
-}
-
-
-/**
- * @param $url
- * @param array $data
- * @return mixed
- */
-function http_request($url, $data = array())
-{
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-    // POST数据
-    curl_setopt($ch, CURLOPT_POST, 1);
-    // 把post的变量加上
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    $output = curl_exec($ch);
-    curl_close($ch);
-    return $output;
 }

@@ -10,4 +10,5 @@ return array(
     'sdk\\libs\\ConfigHelper' => $baseDir . '/sdk/libs/ConfigHelper.php',
     'sdk\\libs\\HttpHelper' => $baseDir . '/sdk/libs/HttpHelper.php',
     'sdk\\libs\\MysqlHelper' => $baseDir . '/sdk/libs/MysqlHelper.php',
+    'sdk\\libs\\RedisHelper' => $baseDir . '/sdk/libs/RedisHelper.php',
 );

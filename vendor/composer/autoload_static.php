@@ -85,6 +85,7 @@ class ComposerStaticInit0aab77ca8a895b1d9197a1080310d5a0
         'sdk\\libs\\ConfigHelper' => __DIR__ . '/../..' . '/sdk/libs/ConfigHelper.php',
         'sdk\\libs\\HttpHelper' => __DIR__ . '/../..' . '/sdk/libs/HttpHelper.php',
         'sdk\\libs\\MysqlHelper' => __DIR__ . '/../..' . '/sdk/libs/MysqlHelper.php',
+        'sdk\\libs\\RedisHelper' => __DIR__ . '/../..' . '/sdk/libs/RedisHelper.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
