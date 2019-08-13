@@ -1,7 +1,8 @@
 {
 	"require": {
 		"php": ">=7.0.0",
-		"katzgrau/klogger": "^1.2"
+		"katzgrau/klogger": "^1.2",
+		"twig/twig": "^2.11"
 	},
 	"autoload": {
 		"psr-4": {

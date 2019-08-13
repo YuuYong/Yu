@@ -37,6 +37,8 @@ class App
 
         define('APP_PATH',PJ_PATH.'app'.DIRECTORY_SEPARATOR);//项目主目录
 
+        define('VIEW_PATH',PJ_PATH.'app/view'.DIRECTORY_SEPARATOR);//模板目录
+
         define('PUBLIC_PATH',PJ_PATH.'public'.DIRECTORY_SEPARATOR);//公共目录
 
         define('CONFIG_PATH',PJ_PATH.'config'.DIRECTORY_SEPARATOR);//项目配置文件目录
@@ -79,9 +81,9 @@ class App
 
         //响应格式
         if($type == 'json'){
-            header('Content-Type: text/html;charset=utf-8');
-        }else{
             header('Content-Type: application/json;charset=utf-8');
+        }else{
+            header('Content-Type: text/html;charset=utf-8');
         }
 
     }
