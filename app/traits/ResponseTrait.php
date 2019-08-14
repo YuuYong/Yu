@@ -50,6 +50,17 @@ trait ResponseTrait
     }
 
     /**
+     * jsonp回调
+     * @param array $data
+     * @param string $callback
+     * @return string
+     */
+    public function jsonp($data, $callback)
+    {
+        return $callback . '(' . json_encode($data) . ')';
+    }
+
+    /**
      * 文件流输出
      * @param $filePath
      * @param $title

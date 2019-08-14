@@ -6,6 +6,9 @@ use Katzgrau\KLogger\Logger;
 
 class App
 {
+    /**
+     * CGI模式运行
+     */
     public static function run(){
 
         //首先定义目录常量
@@ -14,14 +17,33 @@ class App
         //其次定义公共函数
         self::defFunc();
 
-        //Header设置
-        //self::setHeader();
-
         //开启Session
         self::startSession();
 
         //路由解析
         self::getRouter();
+    }
+
+
+    /**
+     * CLI模式运行
+     */
+    public static function run_cli(){
+
+        if(!preg_match("/cli/i", PHP_SAPI)){
+            exit('请以CLI模式运行脚本');
+        }
+
+        date_default_timezone_set('Asia/Shanghai');
+
+        //首先定义目录常量
+        self::defDir();
+
+        //其次定义公共函数
+        self::defFunc();
+
+        //开启Session
+        self::startSession();
     }
 
 
