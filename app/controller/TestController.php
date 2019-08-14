@@ -47,7 +47,7 @@ class TestController extends ApiBaseController
     }
 
 
-    public function jsonp(){
+    public function info(){
         $callback = $_GET['callback'];
         $info = [
             'name' => '张三',

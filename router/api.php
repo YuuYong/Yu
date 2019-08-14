@@ -6,7 +6,7 @@ return [
     'redis' => 'TestController@redis', // example.com/redis
     'mysql' => 'TestController@mysql', // example.com/mysql
     'http' => 'TestController@http', // example.com/http
-    'jsonp' => 'TestController@jsonp', // example.com/jsonp
+    'jsonp' => 'TestController@info', // example.com/jsonp
     'api' => [
         'user' => [
             'info' => 'TestController@test' // example.com/api/user/info
