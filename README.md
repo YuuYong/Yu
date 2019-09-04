@@ -8,6 +8,6 @@ Project Root Dir: /public
 nginx setting:
 ```
 location / {
-    rewrite ^/(.*)$ /index.php?$1 last;
+    try_files $uri $uri/ /index.php?$query_string;
 }
 ```
