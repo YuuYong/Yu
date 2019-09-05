@@ -47,6 +47,7 @@ class TestController extends ApiBaseController
     }
 
 
+    //jsonp请求引用示例
     public function info(){
         $callback = $_GET['callback'];
         $info = [

@@ -11,10 +11,13 @@ class App
      */
     public static function run(){
 
-        //首先定义目录常量
+        //时区定义
+        self::defTimezone();
+
+        //定义目录常量
         self::defDir();
 
-        //其次定义公共函数
+        //定义公共函数
         self::defFunc();
 
         //开启Session
@@ -34,16 +37,25 @@ class App
             exit('请以CLI模式运行脚本');
         }
 
-        date_default_timezone_set('Asia/Shanghai');
+        //时区定义
+        self::defTimezone();
 
-        //首先定义目录常量
+        //定义目录常量
         self::defDir();
 
-        //其次定义公共函数
+        //定义公共函数
         self::defFunc();
 
         //开启Session
         self::startSession();
+    }
+
+
+    /**
+     * 时区定义
+     */
+    private static function defTimezone(){
+        date_default_timezone_set('Asia/Shanghai');
     }
 
 
@@ -149,7 +161,8 @@ class App
             if(isset($all_route[$request_path])){
                 $route = $all_route[$request_path];
             }else{
-                throw new \Exception('Router Not Found!');//404
+                header('HTTP/1.1 404 Not Found');
+                throw new \Exception('Router['.$request_path.'] Not Found!');//404
             }
 
             //逐级检查(方案二)
