@@ -2,3 +2,6 @@
 /.git
 /logs/*
 /cache/*
+/public/files/*
+/public/static/*
+/public/favicon.ico

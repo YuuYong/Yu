@@ -112,4 +112,38 @@ trait ResponseTrait
         }
     }
 
+
+    /**
+     * 视频流输出:mp4格式
+     * @param $file string 视频完整路径
+     */
+    public function mp4($file)
+    {
+        $size = filesize($file);
+        header("Content-type: video/mp4");
+        header("Accept-Ranges: bytes");
+        if (isset($_SERVER['HTTP_RANGE'])) {
+            header("HTTP/1.1 206 Partial Content");
+            list($name, $range) = explode("=", $_SERVER['HTTP_RANGE']);
+            list($begin, $end) = explode("-", $range);
+            if ($end == 0) {
+                $end = $size - 1;
+            }
+        } else {
+            $begin = 0;
+            $end = $size - 1;
+        }
+        header("Content-Length: " . ($end - $begin + 1));
+        header("Content-Disposition: filename=" . basename($file));
+        header("Content-Range: bytes " . $begin . "-" . $end . "/" . $size);
+        $fp = fopen($file, 'rb');
+        fseek($fp, $begin);
+        while (!feof($fp)) {
+            $p = min(1024, $end - $begin + 1);
+            $begin += $p;
+            echo fread($fp, $p);
+        }
+        fclose($fp);
+    }
+
 }

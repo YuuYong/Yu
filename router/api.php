@@ -3,8 +3,8 @@
 // 路由示例
 return [
     '' => 'TestController@html', // example.com
-    'redis' => 'TestController@redis', // example.com/redis
-    'mysql' => 'TestController@mysql', // example.com/mysql
+    'redis' => 'TestController@redis@post', // example.com/redis
+    'mysql' => 'TestController@mysql@post', // example.com/mysql
     'http' => 'TestController@http', // example.com/http
     'jsonp' => 'TestController@info', // example.com/jsonp
     'api' => [
@@ -14,4 +14,7 @@ return [
         'admin' => 'AdminController@test' // example.com/api/admin
     ],
     'data/foo' => 'TestController@test', // example.com/data/foo
+    'html' => 'TestController@html', // example.com/html
+    'file' => 'TestController@files', // example.com/file
+    'video' => 'TestController@video', // example.com/video
 ];

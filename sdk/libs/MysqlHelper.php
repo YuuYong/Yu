@@ -420,7 +420,7 @@ class MysqlHelper
         try {
             $PDOStatement = $this->connection->prepare($sql);
             $rows = $PDOStatement->execute($input_parameters);
-            $res = $PDOStatement->fetch(PDO::FETCH_ASSOC);
+            $res = $PDOStatement->fetchAll(PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
             $logger = new Logger(LOG_PATH . 'sql');
             $logger->error(get_exception($e, 'sql', ['sql' => $sql]), $input_parameters);

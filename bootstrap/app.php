@@ -143,6 +143,7 @@ class App
         $url .= $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
         $path_arr = parse_url($url);
         $request_path = trim($path_arr['path'],'/');
+        $request_method = $_SERVER['REQUEST_METHOD'];
         try{
             //检查路由
             $route = require PJ_PATH . 'router/api.php';
@@ -156,7 +157,7 @@ class App
                 $all_route = json_decode($all_route,true);
             }else{
                 $all_route = get_all_route('',$route);
-                file_put_contents($route_cache_file,json_encode($all_route));
+                //file_put_contents($route_cache_file,json_encode($all_route));
             }
             if(isset($all_route[$request_path])){
                 $route = $all_route[$request_path];
@@ -181,19 +182,23 @@ class App
             }
             $route_arr = explode('@',$route);
             $controller = $route_arr[0] ?? '';
-            $method = $route_arr[1] ?? '';
+            $action = $route_arr[1] ?? '';
+            $method = $route_arr[2] ?? 'GET';
             if(empty($controller)){
                 throw new \Exception("Controller Set Error In Router!");
             }
-            if(empty($method)){
+            if(empty($action)){
+                throw new \Exception("Action Set Error In Router!");
+            }
+            if(strtoupper($method) !== strtoupper($request_method)){
                 throw new \Exception("Method Set Error In Router!");
             }
             $class_name = 'App\controller\\'.$controller;
             $class = new $class_name();
-            if(!method_exists($class,$method)){
-                throw new \Exception("Method Not Found!");
+            if(!method_exists($class,$action)){
+                throw new \Exception("Action Not Found!");
             }
-            $response = $class->$method();
+            $response = $class->$action();
         }catch(\PDOException $e){
             $response = get_exception($e);
             $logger = new Logger(LOG_PATH.'app');

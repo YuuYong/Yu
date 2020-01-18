@@ -57,4 +57,23 @@ class TestController extends ApiBaseController
         return $this->jsonp($info,$callback);
     }
 
+
+    /**
+     * 文件下载请求引用示例
+     */
+    public function files(){
+        //$file = PUBLIC_PATH.'/static/video/8.6_0.mp4';
+        $file = PUBLIC_PATH.'/static/video/showappvideo.mp4';
+        $this->file($file,'showappvideo');
+    }
+
+
+    //视频流请求引用示例
+    public function video(){
+        //$file = PUBLIC_PATH.'/static/video/8.6_0.mp4';
+        $file = PUBLIC_PATH.'/static/video/showappvideo.mp4';
+        $this->mp4($file);
+    }
+
+
 }
